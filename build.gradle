@@ -1,0 +1,77 @@
+buildscript {
+	ext {
+		springBootVersion = '2.1.4.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		//SONARQUEBE DEPENDENCY
+		classpath ( "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.7.1")
+		
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin:'org.sonarqube' 
+apply plugin: 'jacoco'
+bootJar{
+	baseName = 'PassEncoderDecoderWebService'
+	version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+	mavenCentral()
+}	
+
+
+sourceCompatibility =1.8
+targetCompatibility =1.8
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	
+	// APACHE LOGGER JAR
+	compile('log4j:log4j:1.2.17')
+	// SWAGGER JAR
+	compile('io.springfox:springfox-swagger2:2.9.2')
+	compile('io.springfox:springfox-swagger-ui:2.9.2')
+	
+	// CURD REPOSITORY JAR
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	
+	//H2 DATABASE JAR
+	compile('com.h2database:h2')
+	
+	compile("org.codehaus.sonar:sonar-maven-plugin:5.1")
+	
+	//SPRING SECURITY AND AUTHORIZATION
+	compile("org.springframework.boot:spring-boot-starter-security")
+	
+	
+	
+	
+
+	
+}
+// TASK FOR SONAR ANALYSIS
+sonarqube {
+    properties {
+        property 'sonar.host.url', 'http://localhost:9000'
+        //property 'sonar.projectName','EmpMgmtService'
+        property 'sonar.language','JAVA'
+       // property 'sonar.sources','D:/Projects/Project Repository/Example1(Restfull Webservices)/src/main/java'
+       // property 'sonar.projectVersion','0.0.1'
+        // property 'sonar.tests','D:/Projects/Project Repository/Example1(Restfull Webservices)/src/main/test'
+    }
+}
+task Wrapper(type: Wrapper) {
+  	gradleVersion = '4.0'
+    distributionUrl = 'https://services.gradle.org/distributions/gradle-4.0-all.zip'
+}
